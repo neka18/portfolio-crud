@@ -1,10 +1,10 @@
 <?php
 
 session_start();
-$bdd = new PDO('mysql:host=localhost;dbname=pavin;charset=utf8', 'pavin', 'WtAgs8VP5m');
+$bdd = new PDO('mysql:host=localhost;dbname=pavin;charset=utf8', 'pavin', 'WtAgs8VP5m'); //connexion à la base de donnée du server.
 $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if(isset($_SESSION['id'] )&& isset($_SESSION['pseudo'])){
+if(isset($_SESSION['id'] )&& isset($_SESSION['pseudo'])){ //verifie si l'user est bien connecté et si oui on entre dans le crud
     $action = 'list';
     $table = '';
     if (isset($_GET['table'])) {
@@ -37,7 +37,7 @@ if(isset($_SESSION['id'] )&& isset($_SESSION['pseudo'])){
 
 
 
-    echo '<html>
+    echo '<html> 
         <head>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -62,9 +62,9 @@ if(isset($_SESSION['id'] )&& isset($_SESSION['pseudo'])){
 
 }
 
-/*******************************************************************FONCTIONS************************************************************************************* */
+/*******************************************************************FONCTIONS**************************************************************************************/
 
-function display($table, $bdd){
+function display($table, $bdd){ //fonction affichage du crud
 
     $request = $bdd->prepare('SELECT * FROM '.$table.'');
     $request->execute();
@@ -80,7 +80,7 @@ function display($table, $bdd){
     return $content;
 }
 
-function create($table, $bdd){
+function create($table, $bdd){ //fonction creation du crud
     if (isFormSubmit()){
         if (isFormValid()){
             $filePath = uploadFile();
@@ -123,7 +123,7 @@ function create($table, $bdd){
     return $content;
 }
     
-function delete($table, $bdd){
+function delete($table, $bdd){ //fonction pour effacer une donnée dans le crud
     if (!isset($_GET['id'])) {
         http_response_code(400);
         $content = 'Mauvaise requête, impossible de supprimer sans avoir un id. <a href="/action=list&table='.$table.'">Retour à la liste</a>';
@@ -147,14 +147,14 @@ function delete($table, $bdd){
     }
 }
 
-function update($table, $bdd){
+function update($table, $bdd){ //fonction modification dans le crud
     if (!isset($_GET['id'])) {
         http_response_code(400);
         $content = 'Mauvaise requête, impossible de mettre à jour sans avoir un id. <a href="/action=list&table='.$table.'">Retour à la liste</a>';
     } else {
         if (isFormSubmit()) {
-            if (isFormValid()) {
-                $filePath = uploadFile();
+            if (isFormValid()) { //verification du fichier envoyer par l'user pour les normes.
+                $filePath = uploadFile(); 
                 $imageUpdate ='';
                 if($filePath !== null) {
                     $imageUpdate = ' `image`=:image,';
@@ -223,7 +223,7 @@ function update($table, $bdd){
 
 
 
-function getTableRealisation($lines) {
+function getTableRealisation($lines) { //fonction html de l'affichage pour la realisation et les services en dessous.
     $table = '<h1>Liste des réalisations</h1>';
     $table .= '<table class="table">';
     $table .= '<thead><tr><th>id</th><th>nom</th><th>réalisation</th><th>date</th></tr></thead>';
@@ -299,7 +299,7 @@ function isFormValid() : bool {
         return $valid;
 }
 
-function getFormRealisation($realisation){
+function getFormRealisation($realisation){ //affichage html de la creation de données 
     $form = '
         <h1>Ajouter une réalisation</h1>
         <form method="post" enctype="multipart/form-data">
@@ -369,7 +369,7 @@ function getFormService($service){
     return $form;
 }
 
-function getNav($table){
+function getNav($table){ //fucntion permettant d'afficher le menu
     $nav='
     <nav>
         <ul class="nav">
@@ -402,11 +402,11 @@ function getNav($table){
     return $nav;
 }
 
-function writeServiceMessage($message) {
+function writeServiceMessage($message) { //ecrit un message en cas d'erreur.
     $_SESSION['serviceMessage'] = $message;
 }
 
-function getServiceMessage() {
+function getServiceMessage() { 
     $message = null;
     if (isset($_SESSION['serviceMessage'])) {
         $message = $_SESSION['serviceMessage'];
@@ -416,7 +416,7 @@ function getServiceMessage() {
     return $message;
 }
 
-function uploadFile() {
+function uploadFile() { //envoie le fichier télécharger dans le dossier indiqué
     $filePath = 'uploads/'.uniqid().basename($_FILES['image']['name']);
     if(move_uploaded_file($_FILES['image']['tmp_name'], $filePath)) {
         return $filePath;
@@ -424,7 +424,7 @@ function uploadFile() {
     return null;
 }
 
-function getFormLogin(){
+function getFormLogin(){ //fonction html du formulaire de connexion au crud
     $form='
     <form method="post" action="auth.php">
         <br>

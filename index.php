@@ -6,7 +6,7 @@ $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 include 'main.php';
 
 
-$content = getFormLogin();
+$content = getFormLogin(); //on appelle la fonction qui fait apparaitre le formulaire en html et on la met dans la variable content
 echo '<html>
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
@@ -23,6 +23,6 @@ echo '<html>
     </div>
     ';
     }
-    echo $content;
+    echo $content; //variable initialisée plus haut 
     echo '</body></html>';
     

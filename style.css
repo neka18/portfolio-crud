@@ -1,9 +1,9 @@
-.img-realisation{
+.img-realisation{ /*cela evite que les images soit trop grandes lors de l'affichage dans le crud*/
     width: 250px;
     height:200x;
 }
 
-#logout{
+#logout{ /*pour que le bouton de deconnexion soit à droite*/
     position: absolute;
     right: 0px;
 }
